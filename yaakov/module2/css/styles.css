@@ -82,7 +82,6 @@ body {
 }
 
 /*** Mobile (sm) devices only ***/
-@media (max-width: 767px) {
 	.col-sm-12 {
   		float: left;
 	}
@@ -91,5 +90,4 @@ body {
 	}
 	.content {
 		height: auto;
-	}	
-}
+	}
