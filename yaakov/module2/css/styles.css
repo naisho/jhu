@@ -1,20 +1,23 @@
 /*** Base Styles ***/
 * {
 	box-sizing: border-box;
-	position: relative;
+}
+
+body {
 	font-family: Helvetica, sans-serif;
 	line-height: 1.5;
 }
 
-container {
+.container {
 	margin-left: auto;
 	margin-right: auto;
 	padding: 2px;
 }
 
-.card {
+section {
+	position: relative;
 	float: left;
-	border: 1px solid #e5e5e5;
+	border: 1px solid black;
 	border-radius: 5px;
 	padding: 5px;
 	margin: 5px;
@@ -25,7 +28,7 @@ container {
 	position: absolute;
 	right: 0;
 	top: 0;
-	border: 1px solid #e5e5e5;
+	border: 1px solid black;
 	border-radius: 0px 5px 0px 5px;
 	border-top: 0px;
 	border-right: 0px;
@@ -38,30 +41,24 @@ container {
 	float: left;
 	padding: 5px;
 	margin-top: 3em;
-	max-height: 8em;
+	height: 8em;
 	overflow: auto;
 }
 
-.bg-blue {
-	background-color: #178acc;
-}
+.bg-blue {	background-color: #178acc; }
+.bg-green {	background-color: #73a839; }
+.bg-red {	background-color: #d44950; }
 
-.bg-green {
-	background-color: #73a839;
-}
-.bg-red {
-	background-color: #d44950;
-}
-
-/*** Desktop (lg) devices only ***/
-@media (min-width: 992px) {
-	.col-lg-4 {
-		float: left;
+/*** Mobile (sm) devices only ***/
+	.col-sm-12 {
+  		float: left;
 	}
-	.col-lg-4 {
-		width: 33.33333333%;
+	.col-sm-12 {
+  		width: 100%;
 	}
-}
+	.content {
+		height: auto;
+	}
 
 /*** Tablet (md) devices only ***/
 @media (min-width: 768px) and (max-width: 991px) {
@@ -74,14 +71,23 @@ container {
 	.col-md-12 {
 		width: 100%;
 	}
+	.content {
+		height: 10em;
+	}
+	.col-md-12 > .card > .content {
+		height: auto;
+	}
 }
 
-/*** Mobile (sm) devices only ***/
-@media (max-width: 767px) {
-	.col-sm-12 {
-  		float: left;
+/*** Desktop (lg) devices only ***/
+@media (min-width: 992px) {
+	.col-lg-4 {
+		float: left;
 	}
-	.col-sm-12 {
-  		width: 100%;
+	.col-lg-4 {
+		width: 33.33333333%;
+	}
+	.content {
+		height: auto;
 	}
 }
