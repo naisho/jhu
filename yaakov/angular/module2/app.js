@@ -2,92 +2,65 @@
 	'use strict';
 
 	angular.module('ShoppingListCheckOff', [])
-		.controller('ShoppingListController', ShoppingListController)
-		.controller('ToBuyShoppingController', ToBuyShoppingController)
-		.controller('AlreadyBoughtShoppingController', AlreadyBoughtShoppingController)
-		.provider('ToBuyShoppingList', ShoppingListProvider)
-		.provider('AlreadyBoughtShoppingList', ShoppingListProvider)
-		.service('ShoppingListService', ShoppingListService);
+		.controller('ToBuyController', ToBuyController)
+		.controller('AlreadyBoughtController', AlreadyBoughtController)
+		.provider('ShoppingList', ShoppingListProvider)
+		.service('ShoppingListCheckOffService', ShoppingListCheckOffService);
 
-	ShoppingListController.$inject = ['$scope'];
-	function ShoppingListController($scope) {
-		$scope.slc = {}
-
-		$scope.buy = function(itemIndex) {
-			var item = $scope.slc.ToBuyShoppingController.items[itemIndex]
-			var newitem = { name: item.name, quantity: item.quantity }
-
-			$scope.slc.AlreadyBoughtShoppingController.addItem(newitem);
-			$scope.slc.ToBuyShoppingController.removeItem(itemIndex);
-		}
-	}
-
-	ToBuyShoppingController.$inject = ['$scope','ToBuyShoppingList'];
-	function ToBuyShoppingController($scope,ToBuyShoppingList) {
-		$scope.slc.ToBuyShoppingController = this;
+	ToBuyController.$inject = ['$scope','ShoppingList'];
+	function ToBuyController($scope,ShoppingList) {
 		var list = this;
 
-		var itemsToBuy = [
+		list.items = ShoppingList.getToBuy();
+
+		console.log(ShoppingList);
+		list.buy = function(itemIndex) {
+			ShoppingList.buy(itemIndex);
+		}
+
+	}
+
+	AlreadyBoughtController.$inject = ['$scope','ShoppingList'];
+	function AlreadyBoughtController($scope,ShoppingList) {
+		var list = this;
+	
+		list.items = ShoppingList.getAlreadyBought();
+	}
+
+	function ShoppingListCheckOffService() {
+		var service = this;
+
+		// List of shopping items
+		var toBuy = [
 			{ name: "cookies", quantity: 10 },
 			{ name: "laundry detergent", quantity: 2 },
 			{ name: "cheez-its", quantity: 30 },
 			{ name: "marscapone", quantity: 1 },
 			{ name: "gruyere block", quantity: 20}
 		]
-
-		list.items = ToBuyShoppingList.populate(itemsToBuy)
-
-		list.removeItem = function(itemIndex) {
-			ToBuyShoppingList.removeItem(itemIndex);
-		}
-
-	}
-
-	AlreadyBoughtShoppingController.$inject = ['$scope','AlreadyBoughtShoppingList'];
-	function AlreadyBoughtShoppingController($scope,AlreadyBoughtShoppingList) {
-		$scope.slc.AlreadyBoughtShoppingController = this;
-		var list = this;
 		
-		list.items = AlreadyBoughtShoppingList.populate([])
+		var alreadyBought = [];
 
-		list.addItem = function (item) {
-			AlreadyBoughtShoppingList.addItem(item);
+		service.buy = function(itemIndex) {
+			alreadyBought.push(toBuy[itemIndex]);
+			toBuy.splice(itemIndex,1);
+		}
+
+		service.getToBuy = function() {
+			return toBuy
+		}
+
+		service.getAlreadyBought = function() {
+			return alreadyBought
 		}
 
 	}
 
-	// Shopping List Service
-	function ShoppingListService() {
-		var service = this;
-
-		// List of shopping items
-		var items = [];
-
-		service.addItem = function(item) {
-			items.push(item);
-		}
-
-		service.removeItem = function(itemIndex) {
-			items.splice(itemIndex,1);
-		}
-
-		// Populate items with imported list
-		service.populate = function(list) {
-			for (var i = 0; i < list.length; i++) {
-				items.push(list[i]);
-				// console.log("Added ",list[i]);
-			}
-			return items
-		}
-
-	}
-
-	// Shopping List Provider
 	function	ShoppingListProvider() {
 		var provider = this;
 
 		provider.$get = function() {
-			var shoppingList = new ShoppingListService();
+			var shoppingList = new ShoppingListCheckOffService();
 
 			return shoppingList;
 		};
