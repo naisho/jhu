@@ -13,7 +13,6 @@
 
 		list.items = ShoppingList.getToBuy();
 
-		console.log(ShoppingList);
 		list.buy = function(itemIndex) {
 			ShoppingList.buy(itemIndex);
 		}
