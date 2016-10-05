@@ -1,0 +1,9 @@
+<div class="row"></div>
+<div class="alert alert-danger" ng-if="warning">Nothing found</div>
+  <div class="list-group">
+    <li class="list-group-item" ng-repeat="item in items">
+      <span class="badge"><a href="#" ng-click="onRemove({index: $index});"><span class="glyphicon glyphicon-remove" style="color:#fff"></span></a></span>
+      <h4 class="list-group-item-heading">({{ item.short_name }}) {{ item.name }}</h4>
+      <p class="list-group-item-text">{{ item.description }}</p>
+    </li>
+  </div>
